@@ -10,24 +10,29 @@ class Construtor:
     def __init__(self, db, userid):
         self.db = db
         self.userid = userid
+
+        # Pega o id da escuderia.
         self.originalid = db.query("SELECT originalid FROM USERS WHERE userid = %s", (self.userid,))[0][0]
-        self.nome = self.db.query("SELECT name FROM constructors WHERE constructorid = %s;", (self.originalid,))[0][0]
         self.db.commit()
 
         self.acoes()
 
 
     def overview(self):
+        # Imprime o "header".
         console.clear()
         console.print(Panel(Text('Construtor', justify='center')))
 
-        a = 'banco'
-
-        text = f'Nome: {a}\n'
-        text += f'Quantidade de vitórias: {a}\n'
-        text += f'Quantidade de piltos (total): {a}\n'
-        text += f'Ano do primeiro registro: {a}\n'
-        text += f'Ano do último registro: {a}'
+        nome = self.db.query('SELECT * FROM NomeEscuderia(%s)', (self.originalid, ))[0][0]
+        vitorias = self.db.query('SELECT * FROM VitoriasEscuderia(%s)', (self.originalid, ))[0][0]
+        pilotos = self.db.query('SELECT * FROM QuantidadePilotosEscuderia(%s)', (self.originalid, ))[0][0]
+        anos = self.db.query('SELECT * FROM AnosRegistroEscuderia(%s)', (self.originalid, ))[0]
+        
+        text = f'Nome: {nome}\n'
+        text += f'Quantidade de vitórias: {vitorias}\n'
+        text += f'Quantidade de piltos (total): {pilotos}\n'
+        text += f'Ano do primeiro registro: {anos[0]}\n'
+        text += f'Ano do último registro: {anos[1]}'
 
         console.print(Panel(
             Text(text),
@@ -37,6 +42,7 @@ class Construtor:
     def acoes(self):
         sair = False
 
+        # Menu de ações.
         while not sair:
             self.overview()
             print('1 - Ir para relatórios')
@@ -60,6 +66,7 @@ class Construtor:
     def relatorios(self):
         sair = False
 
+        # Menu de relatórios.
         while not sair:
             console.clear()
             console.print(Panel(Text('Relatórios', justify='center')))

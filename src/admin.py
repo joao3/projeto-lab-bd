@@ -14,15 +14,21 @@ class Admin:
 
 
     def overview(self):
+        # Imprime "header".
         console.clear()
         console.print(Panel(Text('Admin', justify='center')))
 
-        a = 'banco'
+        # Pega os dados do banco e imprime no console.
+        pilotos = self.db.query('SELECT * FROM QuantidadePilotosAdmin()')[0][0]
+        escuderias = self.db.query('SELECT * FROM QuantidadeEscuderiasAdmin()')[0][0]
+        corridas = self.db.query('SELECT * FROM QuantidadeCorridasAdmin()')[0][0]
+        temporadas = self.db.query('SELECT * FROM QuantidadeTemporadasAdmin()')[0][0]
+        self.db.commit()
 
-        text = f'Quantidade de pilotos: {a}\n'
-        text += f'Quantidade de escuderias: {a}\n'
-        text += f'Quantidade de corridas: {a}\n'
-        text += f'Quantidade de temporadas: {a}'
+        text = f'Quantidade de pilotos: {pilotos}\n'
+        text += f'Quantidade de escuderias: {escuderias}\n'
+        text += f'Quantidade de corridas: {corridas}\n'
+        text += f'Quantidade de temporadas: {temporadas}'
 
         console.print(Panel(
             Text(text),

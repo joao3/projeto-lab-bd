@@ -12,7 +12,9 @@ console = Console()
 
 def menu(db):
     sair = False
+    # Menu de operações.
     while not sair:
+        # Imprime o "header" e as operações.
         console.clear()
         console.print(Panel(Text('Menu', justify='center')))
         print('1 - Fazer login')
@@ -30,20 +32,25 @@ def menu(db):
             input('Operação inválida, pressione enter para voltar... ')
 
 def login(db):
+    # Imprime o "header".
     console.print(Panel(Text('Login', justify='center')))
     login = input('Login: ')
     senha = input('Senha: ')
 
+    # Tenta logar.
     userid = db.query('SELECT LoginUser(%s, %s);', (login, senha))[0][0]
     db.commit();
 
+    # Falha ao logar.
     if userid is None:
         input('Credenciais inválidas, pressione enter para voltar... ')
         
     else:
+        # Pega o tipo do usuário logado.
         usertype = db.query('SELECT type FROM USERS WHERE userid = %s;', (userid,))[0][0]
         db.commit();
 
+        # Chama a classe de acordo com o tipo do usuário.
         if usertype == 'Administrador':
             Admin(db)
 
@@ -56,6 +63,7 @@ def login(db):
         return True
 
 def main():
+    # Conecta com o banco e vai para o menu.
     db = Db('f1_test', 'postgres')
     db.conectar()
     menu(db)
