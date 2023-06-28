@@ -100,6 +100,7 @@ CREATE TABLE Log_Table (
     login_time TIME DEFAULT CURRENT_TIME
 );
 
+-- Função utilizada para tentar fazer o login, recebe o login e a senha, se as credenciais estão certas, retorna o userid, caso contrário, NULL.
 CREATE OR REPLACE FUNCTION LoginUser(
     p_login VARCHAR(30),
     p_password CHAR(32)
