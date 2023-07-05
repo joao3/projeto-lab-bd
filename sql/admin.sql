@@ -114,6 +114,6 @@ BEGIN
 		JOIN airports a ON c.name = p_cidade
 		WHERE a.type IN ('medium_airport', 'large_airport')
   		AND earth_distance(ll_to_earth(c.lat, c.long), ll_to_earth(a.latdeg, a.longdeg)) <= 100000 -- 100 km em metros = 100000
-		ORDER BY c.country;
+		ORDER BY c.country, earth_distance(ll_to_earth(c.lat, c.long), ll_to_earth(a.latdeg, a.longdeg));
 END;
 $$ LANGUAGE plpgsql;
