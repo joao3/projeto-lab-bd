@@ -99,6 +99,9 @@ $$ LANGUAGE plpgsql;
 CREATE EXTENSION IF NOT EXISTS cube;
 CREATE EXTENSION IF NOT EXISTS earthdistance;
 
+DROP INDEX IF EXISTS idx_admin_airports;
+CREATE INDEX idx_admin_airports ON geocities15k (name);
+
 DROP FUNCTION IF EXISTS AeroportosCidade;
 CREATE OR REPLACE FUNCTION AeroportosCidade(p_cidade TEXT) 
 RETURNS TABLE(c_name TEXT, country CHARACTER, iata CHARACTER, a_name TEXT, city TEXT, a_country CHARACTER, distance DOUBLE PRECISION, type CHARACTER) AS $$
@@ -114,5 +117,3 @@ BEGIN
 		ORDER BY c.country;
 END;
 $$ LANGUAGE plpgsql;
-
-
