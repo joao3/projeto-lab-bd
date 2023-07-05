@@ -29,7 +29,7 @@ class Db:
     def query(self, query, vars=None):
         # Faz uma query e retorna o resultado.
         try:
-            self.cursor.execute(query, vars)
+            self.cursor.execute(query, vars) # Lib inicia a transação aqui.
             self.logger.info("Query executada")
             return self.cursor.fetchall()
         except (Exception, psycopg2.DatabaseError) as error:
