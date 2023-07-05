@@ -83,7 +83,7 @@ $$ LANGUAGE plpgsql;
 
 -- =================================== Relatórios ===================================
 
--- Relatório resultados
+-- Relatório 1: Resultados
 DROP FUNCTION IF EXISTS ResultadosAdmin;
 CREATE OR REPLACE FUNCTION ResultadosAdmin() 
 RETURNS TABLE(status TEXT, quantidade BIGINT) AS $$
@@ -95,7 +95,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Relatório aeroportos
+-- Relatório 2: Aeroportos
 CREATE EXTENSION IF NOT EXISTS cube;
 CREATE EXTENSION IF NOT EXISTS earthdistance;
 

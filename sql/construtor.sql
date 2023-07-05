@@ -63,21 +63,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- =================================== Relatórios ===================================
+-- Relatório 3: Pilotos
+DROP INDEX IF EXISTS idx_constructor_drivers;
+CREATE INDEX idx_constructor_drivers ON results (driverid, constructorid, position);
 
--- Resultados
-DROP FUNCTION IF EXISTS ResultadosEscuderia;
-CREATE OR REPLACE FUNCTION ResultadosEscuderia(
-    p_constructorid INTEGER
-) RETURNS TABLE(status TEXT, quantidade BIGINT) AS $$
-BEGIN
-    RETURN QUERY
-		SELECT s.status, count(*) FROM results r JOIN status s ON r.statusid = s.statusid  
-		WHERE constructorid = p_constructorid 
-		GROUP BY s.status ORDER BY COUNT(*) DESC;
-END;
-$$ LANGUAGE plpgsql;
-
--- Pilotos
 DROP FUNCTION IF EXISTS PilotosEscuderia;
 CREATE OR REPLACE FUNCTION PilotosEscuderia(
     p_constructorid INTEGER
@@ -88,5 +77,18 @@ BEGIN
 		FROM results r JOIN driver d ON r.driverid = d.driverid
 		WHERE constructorid = p_constructorid AND position = 1 
 		GROUP BY forename || ' ' || surname ORDER BY COUNT(*) DESC;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Relatório 4: Resultados
+DROP FUNCTION IF EXISTS ResultadosEscuderia;
+CREATE OR REPLACE FUNCTION ResultadosEscuderia(
+    p_constructorid INTEGER
+) RETURNS TABLE(status TEXT, quantidade BIGINT) AS $$
+BEGIN
+    RETURN QUERY
+		SELECT s.status, count(*) FROM results r JOIN status s ON r.statusid = s.statusid  
+		WHERE constructorid = p_constructorid 
+		GROUP BY s.status ORDER BY COUNT(*) DESC;
 END;
 $$ LANGUAGE plpgsql;

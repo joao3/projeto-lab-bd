@@ -40,9 +40,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- =================================== Relatórios ===================================
--- Relatório Vitorias
+-- Relatório 5: Vitorias
 DROP INDEX IF EXISTS idx_driver_results;
-CREATE INDEX idx_driver_results ON results (driverid, position);
+CREATE INDEX idx_driver_results ON results (raceid, driverid, position);
 
 DROP FUNCTION IF EXISTS VitoriasPilotoRelatorio;
 CREATE OR REPLACE FUNCTION VitoriasPilotoRelatorio(
@@ -58,7 +58,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Relatório - Resultados
+-- Relatório 6: Resultados
 DROP FUNCTION IF EXISTS ResultadosPiloto;
 CREATE OR REPLACE FUNCTION ResultadosPiloto(
     p_driverid INTEGER

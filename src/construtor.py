@@ -23,6 +23,7 @@ class Construtor:
         console.clear()
         console.print(Panel(Text('Construtor', justify='center')))
 
+        # Pega os dados do banco e imprime no console.
         nome = self.db.query('SELECT * FROM NomeEscuderia(%s)', (self.originalid, ))[0][0]
         vitorias = self.db.query('SELECT * FROM VitoriasEscuderia(%s)', (self.originalid, ))[0][0]
         pilotos = self.db.query('SELECT * FROM QuantidadePilotosEscuderia(%s)', (self.originalid, ))[0][0]
