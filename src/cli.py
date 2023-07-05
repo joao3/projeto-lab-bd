@@ -64,7 +64,7 @@ def login(db):
 
 def main():
     # Conecta com o banco e vai para o menu.
-    db = Db('f1_test', 'postgres')
+    db = Db('f1', 'postgres')
     db.conectar()
     menu(db)
     db.desconectar()

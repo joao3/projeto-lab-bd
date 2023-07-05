@@ -42,7 +42,7 @@ class Db:
         # Inicia o logger (debug).
         logger = logging.getLogger("PostgreSQLConnection")
         logger.setLevel(logging.INFO)
-        file_handler = logging.FileHandler("../logs/database.log")
+        file_handler = logging.FileHandler("./database.log")
         formatter = logging.Formatter(
             "%(asctime)s - %(levelname)s - %(message)s",
             "%Y-%m-%d %H:%M:%S"
