@@ -76,3 +76,17 @@ BEGIN
 		GROUP BY s.status ORDER BY COUNT(*) DESC;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Pilotos
+DROP FUNCTION IF EXISTS PilotosEscuderia;
+CREATE OR REPLACE FUNCTION PilotosEscuderia(
+    p_constructorid INTEGER
+) RETURNS TABLE(nome TEXT, quantidade BIGINT) AS $$
+BEGIN
+    RETURN QUERY
+		SELECT forename || ' ' || surname, COUNT(*)
+		FROM results r JOIN driver d ON r.driverid = d.driverid
+		WHERE constructorid = p_constructorid AND position = 1 
+		GROUP BY forename || ' ' || surname ORDER BY COUNT(*) DESC;
+END;
+$$ LANGUAGE plpgsql;

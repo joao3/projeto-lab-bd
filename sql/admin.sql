@@ -81,7 +81,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- =================================== Ações ===================================
+-- =================================== Relatórios ===================================
 
 -- Relatório resultados
 DROP FUNCTION IF EXISTS ResultadosAdmin;

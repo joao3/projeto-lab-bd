@@ -108,7 +108,25 @@ class Construtor:
 
 
     def lista_pilotos(self):
-        input('Lista de pilotos... ') # pegar do banco
+        # Pega os dados do banco.
+        resultado = self.db.query('SELECT * FROM PilotosEscuderia(%s)', (self.originalid, ))
+        self.db.commit()
+
+        if resultado == []:
+            input('Nenhum resultado encontrado, pressione enter para voltar...')
+            return
+
+        # Monta a tabela e imprime no console.
+        table = Table(*['Piloto', 'Número de vitórias'], title='Quantidade de resultados')
+        for linha in resultado:
+            itens = []
+            for coluna in linha:
+                itens.append(coluna.__str__())
+            table.add_row(*itens)
+
+        console.clear()
+        console.print(table)
+        input('Pressione enter para voltar... ')
 
     def quantidade_resultados(self):
         # Pega os dados do banco.
