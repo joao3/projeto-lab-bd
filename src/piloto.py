@@ -122,7 +122,10 @@ class Piloto:
         # Monta a tabela e imprime no console.
         table = Table(*['Status', 'Contagem'], title='Quantidade de resultados')
         for linha in resultado:
-            table.add_row(linha[0].__str__(), linha[1].__str__())
+            itens = []
+            for coluna in linha:
+                itens.append(coluna.__str__())
+            table.add_row(*itens)
 
         console.clear()
         console.print(table)

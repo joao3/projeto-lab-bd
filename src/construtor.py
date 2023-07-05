@@ -75,7 +75,10 @@ class Construtor:
         # Monta a tabela e imprime no console.
         table = Table(*['Nome', 'Data de nascimento', 'Nacionalidade'], title='Consulta por forename')
         for linha in resultado:
-            table.add_row(linha[0].__str__(), linha[1].__str__(), linha[2].__str__())
+            itens = []
+            for coluna in linha:
+                itens.append(coluna.__str__())
+            table.add_row(*itens)
 
         console.clear()
         console.print(table)
@@ -108,4 +111,22 @@ class Construtor:
         input('Lista de pilotos... ') # pegar do banco
 
     def quantidade_resultados(self):
-        input('Quantidade resultados... ')
+        # Pega os dados do banco.
+        resultado = self.db.query('SELECT * FROM ResultadosEscuderia(%s)', (self.originalid, ))
+        self.db.commit()
+
+        if resultado == []:
+            input('Nenhum resultado encontrado, pressione enter para voltar...')
+            return
+
+        # Monta a tabela e imprime no console.
+        table = Table(*['Status', 'Contagem'], title='Quantidade de resultados')
+        for linha in resultado:
+            itens = []
+            for coluna in linha:
+                itens.append(coluna.__str__())
+            table.add_row(*itens)
+
+        console.clear()
+        console.print(table)
+        input('Pressione enter para voltar... ')

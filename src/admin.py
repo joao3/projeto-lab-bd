@@ -116,7 +116,46 @@ class Admin:
                 input('Operação inválida, pressione enter para voltar... ')
 
     def quantidade_resultados(self):
-        input('Quantidade resultados... ')
+        # Pega os dados do banco.
+        resultado = self.db.query('SELECT * FROM ResultadosAdmin()', None)
+        self.db.commit()
+
+        if resultado == []:
+            input('Nenhum resultado encontrado, pressione enter para voltar...')
+            return
+
+        # Monta a tabela e imprime no console.
+        table = Table(*['Status', 'Contagem'], title='Quantidade de resultados')
+        for linha in resultado:
+            itens = []
+            for coluna in linha:
+                itens.append(coluna.__str__())
+            table.add_row(*itens)
+
+        console.clear()
+        console.print(table)
+        input('Pressione enter para voltar... ')
 
     def aeroportos_cidade(self):
-        input('Aeroportos cidade... ')
+        # Lê a cidade.
+        cidade = input('Cidade: ')
+
+        # Pega os dados do banco.
+        resultado = self.db.query('SELECT * FROM AeroportosCidade(%s)', (cidade, ))
+        self.db.commit()
+
+        if resultado == []:
+            input('Nenhum resultado encontrado, pressione enter para voltar...')
+            return
+
+        # Monta a tabela e imprime no console.
+        table = Table(*['Cidade', 'País', 'IATA', 'Aeroporto', 'Cidade (aeroporto)', 'País (aeroporto)', 'Distância (cidade x aeroporto)', 'Tipo (aeroporto)'], title='Aeroportos')
+        for linha in resultado:
+            itens = []
+            for coluna in linha:
+                itens.append(coluna.__str__())
+            table.add_row(*itens)
+
+        console.clear()
+        console.print(table)
+        input('Pressione enter para voltar... ')

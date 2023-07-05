@@ -40,7 +40,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- =================================== Relatórios ===================================
--- Relatório 1
+-- Relatório Vitorias
 DROP INDEX IF EXISTS idx_driver_results;
 CREATE INDEX idx_driver_results ON results (driverid, position);
 
@@ -58,13 +58,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Relatório 2 - Resultados
+-- Relatório - Resultados
 DROP FUNCTION IF EXISTS ResultadosPiloto;
 CREATE OR REPLACE FUNCTION ResultadosPiloto(
     p_driverid INTEGER
 ) RETURNS TABLE(status TEXT, quantidade BIGINT) AS $$
 BEGIN
     RETURN QUERY
-		SELECT s.status, count(*) FROM results r JOIN status s ON r.statusid = s.statusid  WHERE driverid = p_driverid GROUP BY s.status;
+		SELECT s.status, count(*) FROM results r JOIN status s ON r.statusid = s.statusid  
+		WHERE driverid = p_driverid 
+		GROUP BY s.status ORDER BY COUNT(*) DESC;
 END;
 $$ LANGUAGE plpgsql;
