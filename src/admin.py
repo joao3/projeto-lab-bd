@@ -59,10 +59,40 @@ class Admin:
                 input('Operação inválida, pressione enter para voltar... ')
 
     def cadastrar_escuderia(self):
-        input('Cadastrar escuderia... ')
+        # Lê os dados do usuário.
+        consctructor_ref = input('ConstructorRef: ')
+        name = input('Name: ')
+        nationality = input('Nationality: ')
+        url = input('URL: ')
+
+        # Faz a query para inserir.
+        resultado = self.db.query('SELECT CadastrarEscuderia(%s, %s, %s, %s)', (consctructor_ref, name, nationality, url))
+        self.db.commit()
+
+        # Se retornar None, deu erro.
+        if resultado == None:
+            input('Erro ao inserir escuderia, pressione enter para voltar... ')
+        else:
+            input('Escuderia inserida, pressione enter para voltar... ')
 
     def cadastrar_piloto(self):
-        input('Cadastrar piloto... ')
+        # Lê os dados do usuário.
+        driverref = input('DriverRef: ')
+        number = int(input('Number: '))
+        code = input('Code: ')
+        forename = input('Forename: ')
+        surname = input('Surname: ')
+        dob = input('Date of Birth (YYYY-MM-DD): ')
+        nationality = input('Nationality: ')    
+
+        # Faz a query para inserir.
+        resultado = self.db.query('SELECT CadastrarPiloto(%s, %s, %s, %s, %s, %s, %s)', (driverref, number, code, forename, surname, dob, nationality))
+        self.db.commit()    
+        # Se retornar None, deu erro.
+        if resultado == None:
+            input('Erro ao inserir piloto, pressione enter para voltar... ')
+        else:
+            input('Piloto inserido, pressione enter para voltar... ')
 
     def relatorios(self):
         sair = False
