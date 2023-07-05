@@ -27,6 +27,7 @@ class Construtor:
         vitorias = self.db.query('SELECT * FROM VitoriasEscuderia(%s)', (self.originalid, ))[0][0]
         pilotos = self.db.query('SELECT * FROM QuantidadePilotosEscuderia(%s)', (self.originalid, ))[0][0]
         anos = self.db.query('SELECT * FROM AnosRegistroEscuderia(%s)', (self.originalid, ))[0]
+        self.db.commit()
         
         text = f'Nome: {nome}\n'
         text += f'Quantidade de vitórias: {vitorias}\n'
@@ -61,7 +62,24 @@ class Construtor:
                 input('Operação inválida, pressione enter para voltar... ')
 
     def consultar_forename(self):
-        input('Consultar forename... ')
+        forename = input('Insira o forename que deseja consultar: ')
+
+        # Pega os dados do banco.
+        resultado = self.db.query('SELECT * FROM ConsultarForename(%s, %s)', (self.originalid, forename))
+        self.db.commit()
+
+        if resultado == []:
+            input('Nenhum resultado encontrado, pressione enter para voltar...')
+            return
+
+        # Monta a tabela e imprime no console.
+        table = Table(*['Nome', 'Data de nascimento', 'Nacionalidade'], title='Consulta por forename')
+        for linha in resultado:
+            table.add_row(linha[0].__str__(), linha[1].__str__(), linha[2].__str__())
+
+        console.clear()
+        console.print(table)
+        input('Pressione enter para voltar... ')
 
     def relatorios(self):
         sair = False

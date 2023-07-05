@@ -87,6 +87,10 @@ class Piloto:
         resultado = self.db.query('SELECT * FROM VitoriasPilotoRelatorio(%s)', (self.originalid, ))
         self.db.commit()
 
+        if resultado == []:
+            input('Nenhum resultado encontrado, pressione enter para voltar...')
+            return
+
         # Monta a tabela e imprime no console.
         table = Table(*['Ano', 'Corrida', 'Vitórias'], title='Vitórias do piloto')
         for linha in resultado:
@@ -110,6 +114,10 @@ class Piloto:
         # Pega os dados do banco.
         resultado = self.db.query('SELECT * FROM ResultadosPiloto(%s)', (self.originalid, ))
         self.db.commit()
+
+        if resultado == []:
+            input('Nenhum resultado encontrado, pressione enter para voltar...')
+            return
 
         # Monta a tabela e imprime no console.
         table = Table(*['Status', 'Contagem'], title='Quantidade de resultados')

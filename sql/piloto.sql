@@ -1,5 +1,4 @@
--- Overview
-
+-- =================================== Overview ===================================
 -- Nome inteiro do piloto.
 DROP FUNCTION IF EXISTS NomePiloto;
 CREATE OR REPLACE FUNCTION NomePiloto(
@@ -40,8 +39,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Relatórios
-
+-- =================================== Relatórios ===================================
 -- Relatório 1
 DROP INDEX IF EXISTS idx_driver_results;
 CREATE INDEX idx_driver_results ON results (driverid, position);

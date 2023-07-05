@@ -1,4 +1,4 @@
--- Overview
+-- =================================== Overview ===================================
 
 -- Nome
 DROP FUNCTION IF EXISTS NomeEscuderia;
@@ -42,5 +42,21 @@ BEGIN
 	RETURN QUERY 
 		SELECT MIN(year), MAX(year) 
 		FROM results JOIN races on races.raceid = results.raceid WHERE constructorid = p_constructorid;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- =================================== Ações ===================================
+-- Consultar por forename
+DROP FUNCTION IF EXISTS ConsultarForename;
+CREATE OR REPLACE FUNCTION ConsultarForename(
+    p_constructorid INTEGER,
+	p_forename TEXT
+) RETURNS TABLE(nome TEXT, dob DATE, nationality TEXT) AS $$
+BEGIN
+    RETURN QUERY
+		SELECT DISTINCT forename || ' ' || surname, d.dob, d.nationality 
+		FROM results r JOIN driver d ON r.driverid = d.driverid 
+		WHERE constructorid = p_constructorid AND forename = p_forename;
 END;
 $$ LANGUAGE plpgsql;
